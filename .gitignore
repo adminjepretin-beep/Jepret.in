@@ -1,6 +1,26 @@
-# Log server lokal
-*.log
+# Database SQLite lokal (berisi data pelanggan & pemesanan)
+data/*.sqlite
+data/*.sqlite3
+data/*.sqlite-journal
 
-# Metadata tooling & lampiran chat
+# Token WhatsApp lokal (jangan ikut ter-commit)
+config/whatsapp.local.php
+
+# File rahasia / env
+.env
+.env.*
+!.env.example
+
+# File sementara & log
+*.log
+data/_*
+
+# Tangkapan layar review (hanya di folder utama; gambar di assets/ tetap ikut)
+/*.png
+
+# Metadata tooling
+.freebuff/
+
+# Metadata tooling & lampiran chat (hanya di root)
 .freebuff/
 .cloud-attachments/
