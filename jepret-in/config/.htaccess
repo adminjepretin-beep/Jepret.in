@@ -1,0 +1,12 @@
+# Blokir akses web ke isi folder config/ (kredensial admin, setelan database & email).
+# File PHP di sini hanya boleh di-include oleh kode aplikasi, bukan dibuka langsung.
+# Apache 2.4
+<IfModule mod_authz_core.c>
+    Require all denied
+</IfModule>
+
+# Apache 2.2
+<IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+</IfModule>

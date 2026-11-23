@@ -1,0 +1,254 @@
+/* assets/css/style.css - Jepret.in Clean Flat Minimalist (Putih & Ungu, NO GRADIENTS) */
+
+/* Transisi antar halaman (cross-document View Transitions) supaya pindah halaman mulus,
+   bukan kedip putih. Halaman yang di-prerender tetap tampil instan. */
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 220ms;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+  }
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap');
+
+:root {
+  /* Default: LIGHT MODE (Dominan Putih + Aksen Ungu) */
+  --bg-page: #f8fafc;
+  --bg-panel: #ffffff;
+  --bg-card: #ffffff;
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+  --border-color: #e2e8f0;
+  --border-hover: #cbd5e1;
+  --primary-accent: #7c3aed; /* Solid Purple */
+  --primary-accent-hover: #6d28d9;
+  --badge-bg: #f5f3ff;
+  --badge-text: #6d28d9;
+  --badge-border: #ddd6fe;
+
+  /* Elevation: kartu harus kebaca jelas sebagai kartu */
+  --card-border: #dbe2ea;
+  --card-border-hover: #c4b5fd;
+  --card-shadow-rest:
+    0 1px 2px rgba(15, 23, 42, 0.06),
+    0 10px 20px -10px rgba(15, 23, 42, 0.14),
+    0 24px 40px -28px rgba(15, 23, 42, 0.20);
+  --card-shadow-hover:
+    0 2px 4px rgba(15, 23, 42, 0.06),
+    0 16px 30px -12px rgba(15, 23, 42, 0.18),
+    0 32px 56px -28px rgba(76, 29, 149, 0.28);
+  --panel-shadow:
+    0 1px 2px rgba(15, 23, 42, 0.05),
+    0 16px 32px -20px rgba(15, 23, 42, 0.16);
+}
+
+html.dark {
+  /* DARK MODE (Hitam + Aksen Ungu) */
+  --bg-page: #090a0f;
+  --bg-panel: #11131a;
+  --bg-card: #151822;
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --border-color: #232734;
+  --border-hover: #33394a;
+  --primary-accent: #9333ea; /* Solid Purple */
+  --primary-accent-hover: #7e22ce;
+  --badge-bg: #2e1065;
+  --badge-text: #d8b4fe;
+  --badge-border: #581c87;
+
+  --card-border: #2b3242;
+  --card-border-hover: rgba(168, 85, 247, 0.55);
+  --card-shadow-rest:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 2px 6px rgba(0, 0, 0, 0.55),
+    0 20px 40px -20px rgba(0, 0, 0, 0.9);
+  --card-shadow-hover:
+    inset 0 1px 0 rgba(255, 255, 255, 0.07),
+    0 6px 14px rgba(0, 0, 0, 0.6),
+    0 28px 56px -20px rgba(0, 0, 0, 0.95);
+  --panel-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    0 2px 8px rgba(0, 0, 0, 0.5),
+    0 24px 44px -24px rgba(0, 0, 0, 0.9);
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: var(--bg-page);
+  color: var(--text-main);
+  overflow-x: hidden;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+h1, h2, h3, h4, .font-heading {
+  font-family: 'Outfit', sans-serif;
+}
+
+/* Custom Minimalist Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-page);
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+html.dark ::-webkit-scrollbar-thumb {
+  background: #1e293b;
+}
+
+/* Clean Flat Panels & Cards — dengan elevasi yang jelas */
+.glass-panel {
+  background-color: var(--bg-panel);
+  border: 1px solid var(--card-border);
+  box-shadow: var(--panel-shadow);
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+.glass-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--card-border);
+  box-shadow: var(--card-shadow-rest);
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, background-color 0.3s ease;
+}
+.glass-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--card-border-hover);
+  box-shadow: var(--card-shadow-hover);
+}
+
+.glass-input {
+  background-color: #ffffff;
+  border: 1px solid #cbd5e1;
+  color: #0f172a;
+  transition: border-color 0.2s ease;
+}
+.glass-input:focus {
+  border-color: var(--primary-accent);
+  outline: none;
+}
+html.dark .glass-input {
+  background-color: #12151e;
+  border-color: #232734;
+  color: #f8fafc;
+}
+html.dark .glass-input:focus {
+  border-color: var(--primary-accent);
+}
+
+/* Theme Solid Buttons */
+.btn-theme-primary {
+  background-color: #7c3aed; /* Solid Purple (Light) */
+  color: #ffffff;
+  font-weight: 700;
+  transition: background-color 0.2s ease, transform 0.15s ease;
+}
+.btn-theme-primary:hover {
+  background-color: #6d28d9;
+}
+.btn-theme-primary:active {
+  transform: scale(0.98);
+}
+
+html.dark .btn-theme-primary {
+  background-color: #9333ea; /* Solid Purple (Dark) */
+  color: #ffffff;
+}
+html.dark .btn-theme-primary:hover {
+  background-color: #7e22ce;
+}
+
+.btn-theme-dark {
+  background-color: #0f172a; /* Slate 900 */
+  color: #ffffff;
+  font-weight: 700;
+  transition: background-color 0.2s ease, transform 0.15s ease;
+}
+.btn-theme-dark:hover {
+  background-color: #1e293b;
+}
+
+html.dark .btn-theme-dark {
+  background-color: #ffffff;
+  color: #090a0f;
+}
+html.dark .btn-theme-dark:hover {
+  background-color: #e2e8f0;
+}
+
+.btn-theme-secondary {
+  background-color: #f1f5f9;
+  color: #334155;
+  border: 1px solid #e2e8f0;
+  font-weight: 600;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+.btn-theme-secondary:hover {
+  background-color: #e2e8f0;
+  color: #0f172a;
+}
+
+html.dark .btn-theme-secondary {
+  background-color: #151822;
+  color: #cbd5e1;
+  border-color: #232734;
+}
+html.dark .btn-theme-secondary:hover {
+  background-color: #1c212e;
+  color: #ffffff;
+}
+
+.btn-solid-emerald {
+  background-color: #10b981;
+  color: #ffffff;
+  font-weight: 700;
+  transition: background-color 0.2s ease, transform 0.15s ease;
+}
+.btn-solid-emerald:hover {
+  background-color: #059669;
+}
+
+/* Hero Brand Marquee */
+@keyframes jp-marquee-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.jp-marquee-track {
+  display: flex;
+  width: max-content;
+  animation: jp-marquee-scroll 32s linear infinite;
+}
+.jp-marquee:hover .jp-marquee-track {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jp-marquee-track {
+    animation: none;
+  }
+}
+
+/* 3D Camera Canvas Container */
+#camera3d-container {
+  width: 100%;
+  height: 340px;
+  position: relative;
+  cursor: grab;
+  touch-action: none;
+}
+#camera3d-container:active {
+  cursor: grabbing;
+}

@@ -1,0 +1,6 @@
+# Log server lokal
+*.log
+
+# Metadata tooling & lampiran chat
+.freebuff/
+.cloud-attachments/

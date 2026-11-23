@@ -1,0 +1,35 @@
+# .htaccess root Jepret.in
+# Dipakai hanya kalau hosting memakai Apache dan AllowOverride aktif.
+
+# Jangan tampilkan daftar isi folder.
+Options -Indexes
+
+# Setelan rahasia untuk pengiriman link reset password lewat WhatsApp.
+# Isi di hosting (jangan ikut di-commit):
+# SetEnv WA_DRIVER fonnte
+# SetEnv WA_API_TOKEN token-dari-dashboard-fonnte
+
+# Paksa HTTPS. localhost/127.0.0.1 dibiarkan supaya development tetap jalan.
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    RewriteCond %{HTTPS} off
+    RewriteCond %{HTTP_HOST} !^localhost(:\d+)?$ [NC]
+    RewriteCond %{HTTP_HOST} !^127\.0\.0\.1(:\d+)?$ [NC]
+    RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+
+    # Tangkapan layar review di root tidak perlu bisa dibuka publik.
+    RewriteRule ^[^/]+\.png$ - [F]
+</IfModule>
+
+# Blokir file yang tidak boleh diakses langsung dari browser.
+# Folder config/, data/, dan includes/ punya .htaccess sendiri.
+<FilesMatch "\.(sql|sqlite|sqlite3|log|md|ini|bak|sh|zip|env)$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
+</FilesMatch>
