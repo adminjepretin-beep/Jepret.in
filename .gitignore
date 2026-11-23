@@ -25,3 +25,6 @@ data/_*
 # Metadata tooling & lampiran chat (hanya di root)
 .freebuff/
 .cloud-attachments/
+
+# File zip siap upload (dibuat lokal)
+upload-jepret.zip
