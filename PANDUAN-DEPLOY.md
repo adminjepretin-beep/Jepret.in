@@ -105,6 +105,37 @@ Kalau hosting menyediakan menu *Environment Variables* / *PHP Variables*, isi di
 
 Tabel **tidak perlu dibuat manual** — `schema_install()` membuat semua tabel dan mengisi 10 kamera contoh saat request pertama. (Kalau mau manual: phpMyAdmin → Import → `database.sql`.)
 
+### Kalau hosting tidak mendukung environment variable (InfinityFree, free hosting)
+
+Sebagian hosting (contoh: InfinityFree) menonaktifkan `putenv` dan `SetEnv` di `.htaccess` tidak terbaca PHP. Untuk itu pakai file **`config/local.php`** (sudah diabaikan Git, jadi aman):
+
+1. Salin `config/local.example.php` menjadi `config/local.php` di hosting.
+2. Isi nilainya:
+
+```php
+<?php
+return [
+    'db' => [
+        'driver' => 'mysql',
+        'host'   => 'sqlXXX.infinityfree.com',
+        'port'   => '3306',
+        'name'   => 'if0_XXXXXXXX_jepret',
+        'user'   => 'if0_XXXXXXXX',
+        'pass'   => 'password-database',
+    ],
+    'admin' => [
+        'username'      => 'admin',
+        'password_hash' => '$2y$10$....',
+    ],
+    'whatsapp' => [
+        'driver' => 'fonnte',
+        'token'  => 'token-fonnte',
+    ],
+];
+```
+
+Nilai di `config/local.php` **menang** atas environment variable, jadi tidak perlu mengisi `.htaccess` sama sekali.
+
 Cek cepat dari terminal hosting (kalau ada SSH):
 
 ```bash

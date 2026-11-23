@@ -24,6 +24,15 @@ $config = [
     'api_url' => $env('WA_API_URL', 'https://api.fonnte.com/send'),
 ];
 
+// Setelan hosting tanpa environment variable: config/local.php -> 'whatsapp'.
+$local_file = __DIR__ . '/local.php';
+if (is_file($local_file)) {
+    $local_data = require $local_file;
+    if (is_array($local_data) && is_array($local_data['whatsapp'] ?? null)) {
+        $config = array_merge($config, $local_data['whatsapp']);
+    }
+}
+
 // Pengaturan lokal untuk tes di komputer (file ini tidak ikut ter-commit):
 // config/whatsapp.local.php  ->  <?php return ['driver' => 'fonnte', 'token' => 'xxxx'];
 $local = __DIR__ . '/whatsapp.local.php';

@@ -38,6 +38,27 @@ class Database
     private static bool $resolved = false;
     private static string $mysql_error = '';
     private static array $config = [];
+    private static array $local = [];
+
+    /**
+     * Setelan dari config/local.php (dipakai hosting tanpa env var).
+     */
+    private static function local(): array
+    {
+        if (self::$local) {
+            return self::$local;
+        }
+
+        $file = __DIR__ . '/local.php';
+        if (is_file($file)) {
+            $data = require $file;
+            if (is_array($data)) {
+                self::$local = $data;
+            }
+        }
+
+        return self::$local;
+    }
 
     /**
      * Baca environment variable (getenv, lalu $_SERVER/$_ENV untuk SetEnv hosting).
@@ -58,13 +79,21 @@ class Database
             return self::$config;
         }
 
+        $db = (array)(self::local()['db'] ?? []);
+        $pick = static function (string $key, string $env_key, string $default) use ($db): string {
+            if (array_key_exists($key, $db) && $db[$key] !== null) {
+                return (string)$db[$key];
+            }
+            return self::env($env_key, $default);
+        };
+
         self::$config = [
-            'mode'    => strtolower(self::env('DB_DRIVER', 'auto')),
-            'host'    => self::env('DB_HOST', '127.0.0.1'),
-            'port'    => self::env('DB_PORT', '3306'),
-            'name'    => self::env('DB_NAME', 'jepret_in'),
-            'user'    => self::env('DB_USER', 'root'),
-            'pass'    => self::env('DB_PASS', ''),
+            'mode'    => strtolower($pick('driver', 'DB_DRIVER', 'auto')),
+            'host'    => $pick('host', 'DB_HOST', '127.0.0.1'),
+            'port'    => $pick('port', 'DB_PORT', '3306'),
+            'name'    => $pick('name', 'DB_NAME', 'jepret_in'),
+            'user'    => $pick('user', 'DB_USER', 'root'),
+            'pass'    => $pick('pass', 'DB_PASS', ''),
             'charset' => 'utf8mb4',
         ];
 

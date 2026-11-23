@@ -3,7 +3,8 @@ data/*.sqlite
 data/*.sqlite3
 data/*.sqlite-journal
 
-# Token WhatsApp lokal (jangan ikut ter-commit)
+# Setelan & token untuk satu server (jangan ikut ter-commit)
+config/local.php
 config/whatsapp.local.php
 
 # File rahasia / env

@@ -27,8 +27,17 @@ $jepret_env = static function (string $key, string $default = ''): string {
     return ($value === '' || $value === null) ? $default : (string)$value;
 };
 
-$jepret_admin_user = trim($jepret_env('ADMIN_USERNAME', 'admin'));
-$jepret_admin_hash = trim($jepret_env('ADMIN_PASSWORD_HASH'));
+$jepret_local = [];
+$jepret_local_file = __DIR__ . '/local.php';
+if (is_file($jepret_local_file)) {
+    $jepret_local_data = require $jepret_local_file;
+    if (is_array($jepret_local_data)) {
+        $jepret_local = (array)($jepret_local_data['admin'] ?? []);
+    }
+}
+
+$jepret_admin_user = trim((string)($jepret_local['username'] ?? $jepret_env('ADMIN_USERNAME', 'admin')));
+$jepret_admin_hash = trim((string)($jepret_local['password_hash'] ?? $jepret_env('ADMIN_PASSWORD_HASH')));
 
 $jepret_admin_configured = false;
 if ($jepret_admin_hash !== '') {
@@ -41,7 +50,7 @@ if ($jepret_admin_hash !== '') {
     }
 }
 
-unset($jepret_env, $jepret_hash_info);
+unset($jepret_env, $jepret_hash_info, $jepret_local, $jepret_local_data, $jepret_local_file);
 
 return [
     'username'      => $jepret_admin_user !== '' ? $jepret_admin_user : 'admin',
